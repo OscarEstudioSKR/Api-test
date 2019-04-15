@@ -25,6 +25,18 @@ router.get('/:bookId', (req, res, next) => {
     })
 });
 
+router.delete('/:bookId', (req, res, next) => {
+  const bookId = req.params.bookId;
+
+  Book.findOneAndDelete({ _id: bookId })
+    .then((book) => {
+      res.status(202).json(book);
+    })
+    .catch((error) => {
+      next(error);
+    })
+});
+
 router.post('/', (req, res, next) => {
   const newBook = new Book({
     title: req.body.title,
