@@ -37,6 +37,22 @@ router.delete('/:bookId', (req, res, next) => {
     })
 });
 
+router.put('/:bookId', (req, res, next) => {
+  const bookId = req.params.bookId;
+  const updatedData = {
+    title: req.body.title,
+    author: req.body.author
+  };
+
+  Book.findOneAndUpdate({ _id: bookId }, updatedData, {new: true})
+    .then((book) => {
+      res.status(200).json(book);
+    })
+    .catch((error) => {
+      next(error);
+    })
+});
+
 router.post('/', (req, res, next) => {
   const newBook = new Book({
     title: req.body.title,
