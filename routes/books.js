@@ -2,24 +2,16 @@ const express = require('express');
 const Book = require('../models/Book');
 const router = express.Router();
 
-
 /* GET books' list */
 router.get('/', (req, res, next) => {
-  // Fake db
-  const books = [
-    {
-      title: 'Harry Potter',
-      author: 'JK Rowling'
-    },
-    {
-      title: 'El Quijote',
-      author: 'Cervantes'
-    }
-  ];
-
-  res.json(books);
+  Book.find()
+    .then((books) => {
+      res.status(200).json(books);
+    })
+    .catch((error) => {
+      next(error);
+    })
 });
-
 
 router.post('/', (req, res, next) => {
   const newBook = new Book({
