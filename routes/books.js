@@ -13,6 +13,18 @@ router.get('/', (req, res, next) => {
     })
 });
 
+router.get('/:bookId', (req, res, next) => {
+  const bookId = req.params.bookId;
+
+  Book.findOne({ _id: bookId })
+    .then((book) => {
+      res.status(200).json(book);
+    })
+    .catch((error) => {
+      next(error);
+    })
+});
+
 router.post('/', (req, res, next) => {
   const newBook = new Book({
     title: req.body.title,
