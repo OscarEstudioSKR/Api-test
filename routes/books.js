@@ -22,19 +22,27 @@ router.get('/', (req, res, next) => {
 
 
 router.post('/', (req, res, next) => {
-  const book = new Book({
+  const newBook = new Book({
     title: req.body.title,
     author: req.body.author
   });
 
-  book.save((error, newBook) => {
-    if (error) {
-      next(error);
-      return;
-    }
+  // book.save((error, newBook) => {
+  //   if (error) {
+  //     next(error);
+  //     return;
+  //   }
 
-    res.status(201).json(newBook);
-  });
+  //   res.status(201).json(newBook);
+  // });
+
+  Book.create(newBook)
+    .then((savedBook) => {
+      res.status(201).json(savedBook);
+    })
+    .catch((error) => {
+      next(error);
+    })
 });
 
 module.exports = router;
